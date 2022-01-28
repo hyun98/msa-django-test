@@ -1,0 +1,18 @@
+version: "3.3"
+services:
+  profile-service:
+    image: profile
+    volumes:
+      - C:\Users\CHOHYUNWOO\Desktop\Dev\local\msa-django-test\profile:/home/ubuntu/msa-django-test/profile
+    ports:
+      - 8001:8001
+    environment:
+      - PYTHONUNBUFFERED=1
+    entrypoint: ["bash", "-c"]
+    restart: always
+    command: 
+      - |
+        python manage.py makemigrations --noinput 
+        python manage.py migrate --noinput 
+        python manage.py runserver 0.0.0.0:8001 
+
