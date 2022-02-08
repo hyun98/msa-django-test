@@ -20,6 +20,18 @@ def mul(x, y):
 def xsum(numbers):
     return sum(numbers)
 
+
+@shared_task
+def gettest():
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    response = requests.get("http://profile-service:8001/api",
+                            headers=headers)
+    
+    response_content = response.content.decode('utf-8')
+    message = json.loads(response_content)["message"]
+    return message
+
+
 @shared_task
 def posttest(data):
     headers = {'Content-Type': 'application/json; charset=utf-8'}

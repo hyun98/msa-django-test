@@ -4,5 +4,4 @@ from .views import Testview
 
 urlpatterns = [
     path('', Testview.as_view()),
-    
 ]
