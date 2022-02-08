@@ -35,6 +35,43 @@ services:
         python manage.py runserver 0.0.0.0:8000
     networks:
       - test
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 30000:15672
+    restart: always
+    networks:
+      - test
+      
+  celery_worker:
+    image: apigateway
+    volumes:
+      - C:\Users\CHOHYUNWOO\Desktop\Dev\local\msa-django-test\apigateway:/home/ubuntu/msa-django-test/apigateway
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - apigateway-service
+      - rabbitmq
+    # deploy:
+    #   replicas: 1
+    #   restart_policy:
+    #     condition: on-failure
+    #   resources:
+    #     limits:
+    #       cpus: '0.30'
+    #       memory: 50M
+    #     reservations:
+    #       cpus: '0.20'
+    #       memory: 20M
+    networks:
+      - test
+    restart: always
+    entrypoint: ["bash", "-c"]
+    command: 
+      - |
+        celery -A config worker -l info
 
 networks:
   test:

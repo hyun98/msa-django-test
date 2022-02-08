@@ -6,14 +6,18 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import User
+from .tasks import show, posttest
+from config.celery import debug_task
+from celery import uuid
 
 class Testview(APIView):
     def get(self, request):
-        res = ""
         
         response = requests.get("http://profile-service:8001/api")
         response = json.loads(response.content)
         
+        ret = show.delay("hello")
+        print(ret)
         
         return Response({
             "message": f"{response['message']}"
@@ -33,13 +37,14 @@ class Testview(APIView):
             "login_time": now.strftime('%Y-%m-%d %H:%M:%S')
         }
         
-        headers = {'Content-Type': 'application/json; charset=utf-8'}
-        response = requests.post("http://profile-service:8001/api/",
-                                 data=json.dumps(data), headers=headers)
+        response = posttest.delay(data)
+        message = response.get()
+        print(message)
         
-        # print(response.status_code)
-        message = json.loads(response.content)["message"]
-        return Response(message)
+        context = {
+            "message": message
+        }
+        return Response(context)
         
 
 # {
