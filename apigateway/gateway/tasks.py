@@ -28,7 +28,8 @@ def gettest():
                             headers=headers)
     
     response_content = response.content.decode('utf-8')
-    message = json.loads(response_content)["message"]
+    message = json.loads(response_content)
+    print(message, type(message))
     return message
 
 
@@ -39,5 +40,5 @@ def posttest(data):
                                 data=json.dumps(data), headers=headers)
     
     response_content = response.content.decode('utf-8')
-    message = json.loads(response_content)["message"]
+    message = json.loads(response_content)
     return message

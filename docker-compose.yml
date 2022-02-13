@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   profile-service:
-    image: profile
+    image: profiletest
     volumes:
       - C:\Users\CHOHYUNWOO\Desktop\Dev\local\msa-django-test\profile:/home/ubuntu/msa-django-test/profile
     ports:
@@ -19,7 +19,7 @@ services:
       - test
         
   apigateway-service:
-    image: apigateway
+    image: apigatewaytest
     volumes:
       - C:\Users\CHOHYUNWOO\Desktop\Dev\local\msa-django-test\apigateway:/home/ubuntu/msa-django-test/apigateway
     ports:
@@ -30,9 +30,9 @@ services:
     restart: always
     command: 
       - |
-        python manage.py makemigrations --noinput
-        python manage.py migrate --noinput
-        python manage.py runserver 0.0.0.0:8000
+        python manage.py makemigrations --noinput --settings=config.settings.local
+        python manage.py migrate --noinput --settings=config.settings.local
+        python manage.py runserver 0.0.0.0:8000 --settings=config.settings.local
     networks:
       - test
   
@@ -46,7 +46,7 @@ services:
       - test
       
   celery_worker:
-    image: apigateway
+    image: apigatewaytest
     volumes:
       - C:\Users\CHOHYUNWOO\Desktop\Dev\local\msa-django-test\apigateway:/home/ubuntu/msa-django-test/apigateway
     environment:
@@ -71,7 +71,7 @@ services:
     entrypoint: ["bash", "-c"]
     command: 
       - |
-        celery -A config worker -l info
+        DJANGO_SETTINGS_MODULE='config.settings.local' celery -A config worker -l info
 
 networks:
   test:

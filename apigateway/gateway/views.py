@@ -55,6 +55,8 @@ class Gateway(APIView):
         print("header : ", request.headers)
         response = gettest.delay()
         message = response.get()
+        print(message)
+        print(type(message))
         
         print("rabbitmq")
         
