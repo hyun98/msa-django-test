@@ -3,7 +3,7 @@ services:
   profile-service:
     image: profiletest
     volumes:
-      - C:\Users\CHOHYUNWOO\Desktop\Dev\local\msa-django-test\profile:/home/ubuntu/msa-django-test/profile
+      - ./profile:/home/ubuntu/msa-django-test/profile
     ports:
       - 8001:8001
     environment:
@@ -21,7 +21,7 @@ services:
   apigateway-service:
     image: apigatewaytest
     volumes:
-      - C:\Users\CHOHYUNWOO\Desktop\Dev\local\msa-django-test\apigateway:/home/ubuntu/msa-django-test/apigateway
+      - ./apigateway:/home/ubuntu/msa-django-test/apigateway
     ports:
       - 8000:8000
     environment:
@@ -48,7 +48,7 @@ services:
   celery_worker:
     image: apigatewaytest
     volumes:
-      - C:\Users\CHOHYUNWOO\Desktop\Dev\local\msa-django-test\apigateway:/home/ubuntu/msa-django-test/apigateway
+      - ./apigateway:/home/ubuntu/msa-django-test/apigateway
     environment:
       - PYTHONUNBUFFERED=1
     depends_on:
