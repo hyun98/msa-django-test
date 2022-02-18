@@ -54,18 +54,15 @@ class Gateway(APIView):
     def get(self, request, *args, **kwargs):
         print("header : ", request.headers)
         response = gettest.delay()
-        print(response)
         message = response.get()
-        # print(message)
-        # message = json.loads(message)
+        print(message)
+        print(type(message))
         
         print("rabbitmq")
         
-        context = {
-            "data": message
-        }
-        
-        return Response(context, status=status.HTTP_200_OK)
+        return Response({
+            "message": message
+        }, status=status.HTTP_200_OK)
         
     def post(self, request, *args, **kwargs):
         
