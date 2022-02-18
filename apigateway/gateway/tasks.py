@@ -27,9 +27,12 @@ def gettest():
     response = requests.get("http://profile-service:8001/api",
                             headers=headers)
     
+    print("response : ", response)
     response_content = response.content.decode('utf-8')
-    message = json.loads(response_content)["message"]
-    return message
+    data = json.loads(response_content)["data"]
+    
+    print("data : ", data)
+    return data
 
 
 @shared_task
@@ -39,5 +42,5 @@ def posttest(data):
                                 data=json.dumps(data), headers=headers)
     
     response_content = response.content.decode('utf-8')
-    message = json.loads(response_content)["message"]
+    message = json.loads(response_content)["data"]
     return message

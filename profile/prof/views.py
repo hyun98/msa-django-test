@@ -13,9 +13,20 @@ class Testview(APIView):
     
     def get(self, request):
         print("origin : ", request.path)
-        return Response({
-            "message": "profile called"
-        }, status=status.HTTP_200_OK)
+        
+        data = {
+            "data": [
+                {
+                    "name": "a"
+                },
+                {
+                    "name": "b"
+                }
+            ]
+        }
+        # test = {}
+        
+        return Response(data, status=status.HTTP_200_OK)
     
     
     def post(self, request):
